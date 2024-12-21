@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "di", "FractalPainter\di.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagCloudDI", "TagCloudDI\TagCloudDI.csproj", "{35C8F6C7-EBA5-49C4-B4FA-80429C56052B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagCloudDITests", "TagCloudDITests\TagCloudDITests.csproj", "{546EB431-BF98-4662-9BA4-442FF64CFECA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +23,15 @@ Global
 		{35C8F6C7-EBA5-49C4-B4FA-80429C56052B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35C8F6C7-EBA5-49C4-B4FA-80429C56052B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35C8F6C7-EBA5-49C4-B4FA-80429C56052B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{546EB431-BF98-4662-9BA4-442FF64CFECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{546EB431-BF98-4662-9BA4-442FF64CFECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{546EB431-BF98-4662-9BA4-442FF64CFECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{546EB431-BF98-4662-9BA4-442FF64CFECA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {088C49D7-9ECF-4622-9618-8414234ECAF1}
 	EndGlobalSection
 EndGlobal
