@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TagCloudDI.WordHandlers
 {
-    internal class LowerCaseTransformer: IWordTransformer
+    internal class LowerCaseTransformer : IWordTransformer
     {
+        public string Apply(string word)
+        {
+            return word.ToLower();
+        }
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace TagCloudDI.WordHandlers
 {
-    internal class InitialFormTransformer: IWordTransformer
+    internal class InitialFormTransformer : IWordTransformer
     {
+        public string Apply(string word)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

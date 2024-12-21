@@ -8,5 +8,9 @@ namespace TagCloudDI.WordHandlers
 {
     internal class BoredWordFilter : IWordFilter
     {
+        public bool Accept(string word)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
