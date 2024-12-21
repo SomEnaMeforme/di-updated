@@ -1,11 +1,14 @@
 ﻿using System.Drawing;
+using TagCloudDI.CloudVisualize;
 
 namespace TagCloudDI
 {
     public class WordParameters
     {
-        public string Word {  get; }
+        public static int WordMaxHeight = 500;
+        public static int WordMaxLetterWidth = 50;
         public Rectangle WordBorder { get; private set; }
+        public string Word {  get; }
 
         public Size WordBorderSize { get; }
         public WordParameters(string word, double frequency) 
@@ -16,7 +19,7 @@ namespace TagCloudDI
 
         public Size CalculateBorderSize(double frequency)
         {
-
+            return new Size((int)(WordMaxLetterWidth * frequency * Word.Length), (int)(WordMaxHeight * frequency));
         }
     }
 }

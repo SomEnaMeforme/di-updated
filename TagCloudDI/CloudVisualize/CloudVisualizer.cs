@@ -5,12 +5,12 @@ namespace TagCloudDI.CloudVisualize
 {
     public class CloudVisualizer
     {
-        private IVisualizeSettings settings;
-        public CloudVisualizer(IVisualizeSettings settings)
+        private VisualizeSettings settings;
+        public CloudVisualizer(VisualizeSettings settings)
         {
             this.settings = settings;
         }
-        public string CreateImage(IEnumerable<IWordParameters> source)
+        public string CreateImage(IEnumerable<WordParameters> source)
         {
             throw new NotImplementedException();
         }

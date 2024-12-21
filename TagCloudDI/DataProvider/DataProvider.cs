@@ -30,15 +30,14 @@ namespace TagCloudDI.DataProvider
         private Dictionary<string, double> CalculateFrequency(IEnumerable<string> words)
         {
             var frequency = new Dictionary<string, double>();
-            var wordCount = 0;
             foreach (var word in words)
             {
                 if (!frequency.ContainsKey(word))
                     frequency.Add(word, 0);
                 frequency[word]++;
-                wordCount++;
             }
-            return frequency.ToDictionary(kvp => kvp.Key, kvp => kvp.Value / wordCount);
+            var maxFrequency = frequency.Max(kvp => kvp.Value);
+            return frequency.ToDictionary(kvp => kvp.Key, kvp => kvp.Value / maxFrequency);
         }
 
         private string ApplyTransformers(string word)
