@@ -2,5 +2,6 @@
 {
     public interface IWordFilter
     {
+        public bool Accept(string word);
     }
 }
