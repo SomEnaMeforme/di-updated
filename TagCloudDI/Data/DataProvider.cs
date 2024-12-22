@@ -1,21 +1,21 @@
 ﻿using TagCloudDI.WordHandlers;
 
-namespace TagCloudDI.DataProvider
+namespace TagCloudDI.Data
 {
     public class DataProvider
     {
-        private IDataSource source;
+        private IFileDataSource source;
         private IEnumerable<IWordTransformer> transformers;
         private IEnumerable<IWordFilter> filters;
-        public DataProvider(IDataSource dataSource, IEnumerable<IWordTransformer> transformers, IEnumerable<IWordFilter> filters) 
+        public DataProvider(IFileDataSource dataSource, IEnumerable<IWordTransformer> transformers, IEnumerable<IWordFilter> filters) 
         {
             this.transformers = transformers;
             this.filters = filters;
             source = dataSource;
         }
-        private string[] ReadData(IDataSource dataSource)
+        private string[] ReadData(IFileDataSource dataSource, string filePath)
         {
-            return dataSource.GetWords();
+            return dataSource.GetWords(filePath);
         }
 
         private WordParameters[] PreprocessData(string[] words)
@@ -49,9 +49,9 @@ namespace TagCloudDI.DataProvider
             return word;
         }
 
-        public WordParameters[] GetPreprocessedWords()
+        public WordParameters[] GetPreprocessedWords(string filePath)
         {
-            var words = ReadData(source);
+            var words = ReadData(source, filePath);
             return PreprocessData(words);
         }
     }

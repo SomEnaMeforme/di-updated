@@ -5,6 +5,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using TagsCloudVisualization;
+using TagsCloudVisualization.CloudLayouter;
 
 namespace TagCloudTests;
 
@@ -41,23 +42,6 @@ public class CircularCloudLayouterTests
         defaultCenter = new Point(5, 5);
         storage = [];
         layouter = CircularCloudLayouter.CreateLayouterWithStartRectangles(defaultCenter, storage);
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
-        {
-            SaveImageOnFail();
-        }
-    }
-
-    private void SaveImageOnFail()
-    {
-        var visualizer = new CircularCloudVisualizer(storage);
-        var pathFile = Path.Combine(Directory.GetCurrentDirectory(), TestContext.CurrentContext.Test.Name);
-        visualizer.CreateImage(pathFile);
-        TestContext.Out.WriteLine($"Tag cloud visualization saved to file {pathFile}");
     }
 
     [TestCase(0, 4, TestName = "WhenWidthZero")]
