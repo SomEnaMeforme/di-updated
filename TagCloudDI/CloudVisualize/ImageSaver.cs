@@ -7,11 +7,12 @@ namespace TagCloudDI.CloudVisualize
     {
         private ImageFormat format = ImageFormat.Png;
 
-        public void SaveImage(Bitmap image, string? filePath = null)
+        public string SaveImage(Bitmap image, string? filePath = null)
         {
             var rnd = new Random();
             filePath ??= Path.Combine(Path.GetTempPath(), $"tagCloud{rnd.Next()}.{FormatToString()}");
             image.Save(filePath, format);
+            return filePath;
         }
 
         private string? FormatToString()

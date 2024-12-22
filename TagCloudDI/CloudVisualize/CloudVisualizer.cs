@@ -13,11 +13,8 @@ namespace TagCloudDI.CloudVisualize
             this.settings = settings;
             imageSaver = new ImageSaver();
         }
-        public string CreateImage(IEnumerable<WordParameters> source)
-        {
-            throw new NotImplementedException();
-        }
-        public void CreateImage(IEnumerable<WordParameters> source, string? filePath = null)
+
+        public string CreateImage(IEnumerable<WordParameters> source, string? filePath = null)
         {
             var words = source.ToArray();
             var tmpImageSize = CalculateImageSize(words);
@@ -34,8 +31,8 @@ namespace TagCloudDI.CloudVisualize
                 var nextWord = words[i];
                 graphics.DrawString(nextWord.Word, settings.Font, brush, nextWord.WordBorder);
             }
-            var resizedImage = new Bitmap(image, settings.ImageSize);
-            imageSaver.SaveImage(resizedImage, filePath);
+            var resizedImage = new Bitmap(image, tmpImageSize);//settings.ImageSize);
+            return imageSaver.SaveImage(resizedImage, filePath);
         }
 
         private WordParameters[] PlaceCloudInImage(WordParameters[] words, Size tmpImageSize)

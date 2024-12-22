@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
-using System.Runtime.CompilerServices;
-using TagCloudDI.WordHandlers;
+using System.Transactions;
+using TagCloudDI.CloudVisualize;
+using TagCloudDI.Data;
 
 namespace TagCloudDI
 {
@@ -8,16 +9,23 @@ namespace TagCloudDI
     {
         private DataProvider dataProvider;
         private ICloudLayouter layouter;
-        public CloudCreator(DataProvider dataProvider, ICloudLayouter cloudLayouter) 
+        private CloudVisualizer cloudVisualizer;
+        public CloudCreator(DataProvider dataProvider, CloudVisualizer visualizer, ICloudLayouter cloudLayouter) 
         {
             this.dataProvider = dataProvider;
             this.layouter = cloudLayouter;
+            cloudVisualizer = visualizer;
         }
         
-        public Rectangle[] CreateTagCloud()
+        public string CreateTagCloud(string pathToFileWithWords)
         {
-            var words = dataProvider.GetData();
-            throw new NotImplementedException();
+            var words = dataProvider.GetPreprocessedWords(pathToFileWithWords);
+            // pathToFileWithImage = ".\\WorldCloud.png";
+            foreach (var word in words)
+            {
+                word.WordBorder = layouter.PutNextRectangle(word.WordBorderSize);
+            }
+            return cloudVisualizer.CreateImage(words);
         }
     }
 }

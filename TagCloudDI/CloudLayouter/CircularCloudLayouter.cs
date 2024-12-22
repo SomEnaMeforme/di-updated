@@ -12,8 +12,8 @@ namespace TagsCloudVisualization.CloudLayouter
         private readonly CloudCompressor compressor;
         private readonly CirclePositionDistributor distributor;
 
-        public CircularCloudLayouter(Point center) : this(center, [])
-        { }
+        public CircularCloudLayouter(): this(new Point(0,0), [])
+        {  }
 
         private CircularCloudLayouter(Point center, List<Rectangle> storage)
         {
