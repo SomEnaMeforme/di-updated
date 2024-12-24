@@ -29,7 +29,7 @@ namespace TagCloudDI
                 return p => ctx.ResolveKeyed<IFileDataSource>(p);
             });
             builder.RegisterType<TxtFileDataSource>().Keyed<IFileDataSource>(".txt");
-            builder.RegisterType<DocxFileDataSource>().Keyed<IFileDataSource>(".doc");
+            builder.RegisterType<DocFileDataSource>().Keyed<IFileDataSource>(".doc");
             builder.RegisterType<DocxFileDataSource>().Keyed<IFileDataSource>(".docx");
             builder.RegisterType<App>().SingleInstance();
             builder.RegisterType<VisualizeSettings>().SingleInstance();
