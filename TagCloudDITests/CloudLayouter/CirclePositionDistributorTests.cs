@@ -4,7 +4,7 @@ using NUnit.Framework;
 using TagsCloudVisualization;
 using TagsCloudVisualization.Extensions;
 
-namespace TagCloudTests;
+namespace TagCloudDITests.CloudLayouter;
 
 public class CirclePositionDistributorTests
 {

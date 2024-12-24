@@ -4,7 +4,7 @@ using FluentAssertions;
 using System.Drawing;
 using TagsCloudVisualization.CloudLayouter;
 
-namespace TagCloudTests
+namespace TagCloudDITests.CloudLayouter
 {
     public class BruteForceNearestFinderTests
     {

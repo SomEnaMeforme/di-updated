@@ -14,10 +14,10 @@ namespace TagCloudDI.ConsoleInterface
         {
             this.creator = creator;
             settings = visualizeSettings;
-            app = new CommandLineApplication();
+            app = new CommandLineApplication<App>();
 
             app.HelpOption();
-            app.Command("createTagCloud",ConfigureCreateCloudCommand);
+            app.Command("createTagCloud", ConfigureCreateCloudCommand);
             app.Command("configure", ConfigureChangeImageParameterCommand);
         }
 
@@ -73,7 +73,7 @@ namespace TagCloudDI.ConsoleInterface
                     settings.ImageSize = hasHeight && hasWidth ? new Size(width, height) : Size.Empty;
                 }
                 if (wordsColor.HasValue())
-                {;
+                {
                     settings.WordColors = wordsColor.Values.Select(c => Color.FromName(c)).ToArray();
                 }
                 if (backgroundColor.HasValue())

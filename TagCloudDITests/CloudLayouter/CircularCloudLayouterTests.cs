@@ -7,7 +7,7 @@ using NUnit.Framework.Interfaces;
 using TagsCloudVisualization;
 using TagsCloudVisualization.CloudLayouter;
 
-namespace TagCloudTests;
+namespace TagCloudDITests.CloudLayouter;
 
 public class CircularCloudLayouterTests
 {
