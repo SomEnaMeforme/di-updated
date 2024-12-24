@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using McMaster.Extensions.CommandLineUtils;
 using TagCloudDI.CloudVisualize;
 using TagCloudDI.ConsoleInterface;
 using TagCloudDI.Data;
@@ -16,13 +14,23 @@ namespace TagCloudDI
             var builder = new ContainerBuilder();
 
             builder.RegisterType<LowerCaseTransformer>().As<IWordTransformer>();
+            builder.RegisterType<BoredSpeechPartFilter>().As<IWordFilter>();
+            builder.RegisterType<RemoveEmptyWords>().As<IWordFilter>();
             builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>();
-            builder.RegisterType<CloudCreator>().As<CloudCreator>();
-            builder.RegisterType<CloudVisualizer>().As<CloudVisualizer>();
+            builder.RegisterType<CloudCreator>();
+            builder.RegisterType<CloudVisualizer>();
             builder.RegisterType<DataProvider>();
-            builder.RegisterType<TxtFileDataSource>().As<IFileDataSource>();
+            builder.RegisterType<RandomWordColorDistributor>().As<IWordColorDistributor>();
+            builder.Register<Func<string, IFileDataSource>>(c =>
+            {
+                var ctx = c.Resolve<IComponentContext>();
+                return p => ctx.ResolveKeyed<IFileDataSource>(p);
+            });
+            builder.RegisterType<TxtFileDataSource>().Keyed<IFileDataSource>(".txt");
+            builder.RegisterType<DocFileDataSource>().Keyed<IFileDataSource>(".doc");
+            builder.RegisterType<DocFileDataSource>().Keyed<IFileDataSource>(".docx");
             builder.RegisterType<App>().SingleInstance();
-            builder.RegisterType<VisualizeSettings>();
+            builder.RegisterType<VisualizeSettings>().SingleInstance();
 
             var container = builder.Build();
             using (var scope = container.BeginLifetimeScope())
