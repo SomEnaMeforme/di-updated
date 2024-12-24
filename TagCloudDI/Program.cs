@@ -39,9 +39,6 @@ namespace TagCloudDI
             {
                 var app = scope.Resolve<App>();
                 app.Run();
-                //var s = scope.Resolve<VisualizeSettings>();
-                //var json = JsonSerializer.Serialize(s, new JsonSerializerOptions() { WriteIndented = true});
-                //File.WriteAllText(".\\settings.json", json);
             }
         }
     }
