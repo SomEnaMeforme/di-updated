@@ -59,5 +59,10 @@ namespace TagsCloudVisualization.CloudLayouter
             if (forInsertion.Width <= 0 || forInsertion.Height <= 0)
                 throw new ArgumentException($"Rectangle has incorrect size: width = {forInsertion.Width}, height = {forInsertion.Height}");
         }
+
+        public void Clear()
+        {
+            storage.Clear();
+        }
     }
 }

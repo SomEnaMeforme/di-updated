@@ -6,17 +6,22 @@ namespace TagCloudDI.CloudVisualize
     {
         private VisualizeSettings settings;
         private readonly ImageSaver imageSaver;
+        private readonly ICloudLayouter layouter;
         private readonly Size defaultSizeForImage = new Size(500, 500);
+        private readonly IWordColorDistributor distributor;
 
-        public CloudVisualizer(VisualizeSettings settings)
+
+        public CloudVisualizer(VisualizeSettings settings, ICloudLayouter cloudLayouter, IWordColorDistributor distributor)
         {
             this.settings = settings;
             imageSaver = new ImageSaver();
+            layouter = cloudLayouter;
+            this.distributor = distributor;
         }
 
-        public string CreateImage(IEnumerable<WordParameters> source, string? filePath = null)
+        public string CreateImage((string Word, double Frequency)[] source, string? filePath = null)
         {
-            var words = source.ToArray();
+            var words = LayoutWords(source).ToArray();
             var tmpImageSize = CalculateImageSize(words);
             words = PlaceCloudInImage(words, tmpImageSize);
             using var image = new Bitmap(tmpImageSize.Width, tmpImageSize.Height);
@@ -24,15 +29,31 @@ namespace TagCloudDI.CloudVisualize
 
             graphics.Clear(settings.BackgroundColor);
 
-            var brush = new SolidBrush(settings.WordColor);
-
             for (var i = 0; i < words.Length; i++)
             {
-                var nextWord = words[i];
-                graphics.DrawString(nextWord.Word, settings.Font, brush, nextWord.WordBorder);
+                var currentWord = words[i];
+                var font = new Font(settings.FontFamily, currentWord.FontSize);
+                var color = distributor.GetColor(settings.WordColors);
+                graphics.DrawRectangle(new Pen(color), currentWord.WordBorder);
+                graphics.DrawString(currentWord.Word, font, new SolidBrush(color), currentWord.WordBorder);
             }
-            var resizedImage = new Bitmap(image, tmpImageSize);//settings.ImageSize);
+            imageSaver.SaveImage(image);
+            var resizedImage = new Bitmap(image, settings.ImageSize == Size.Empty ? tmpImageSize : settings.ImageSize);
             return imageSaver.SaveImage(resizedImage, filePath);
+        }
+
+        private IEnumerable<WordParameters> LayoutWords((string Word, double Frequency)[] words)
+        {
+            var g = Graphics.FromImage(new Bitmap(1, 1));
+            foreach (var word in words)
+            {
+                var fontSize = Math.Max((float)(settings.MaxFontSize * word.Frequency), settings.MinFontSize);
+                var wordSize = g.MeasureString(word.Word, new Font(settings.FontFamily, fontSize));
+                var wordSizeInt = new Size((int)Math.Ceiling(wordSize.Width), (int)Math.Ceiling(wordSize.Height));
+                var border = layouter.PutNextRectangle(wordSizeInt);
+                yield return new WordParameters(word.Word, border, fontSize);
+            }
+            layouter.Clear();
         }
 
         private WordParameters[] PlaceCloudInImage(WordParameters[] words, Size tmpImageSize)
@@ -41,11 +62,10 @@ namespace TagCloudDI.CloudVisualize
             var deltaForY = CalculateDeltaForMoveByAxis(words, r => r.Top, r => r.Bottom, tmpImageSize.Height);
             foreach (var word in words)
             {
-                word.WordBorder = new Rectangle(new Point(word.WordBorder.Left + deltaForX, word.WordBorder.Y + deltaForY), word.WordBorder.Size);
+                word.MoveBorderToNewLocation(new Point(word.WordBorder.Left + deltaForX, word.WordBorder.Y + deltaForY));
             }
             return words;
         }
-
 
         private int CalculateDeltaForMoveByAxis(
             WordParameters[] words,

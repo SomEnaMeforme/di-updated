@@ -4,20 +4,15 @@ namespace TagCloudDI.CloudVisualize
 {
     public class VisualizeSettings
     {
-        private string defaultFontFamily = "Arial";
-
-        public FontFamily FontFamily { get; set; }
-        public Font Font { get; set; }
-        public Color WordColor { get; set; }
-        public Color BackgroundColor { get; set; }
-        public Size ImageSize { get; set; }
-
-        public VisualizeSettings()
+        public FontFamily FontFamily { get; set; } = new FontFamily("Arial");
+        public Color BackgroundColor { get; set; } = Color.White;
+        public Size ImageSize { get; set; } = Size.Empty;
+        public Color[] WordColors { get; set; } = new Color[]
         {
-            FontFamily = new FontFamily(defaultFontFamily);
-            Font = new Font(FontFamily, 15);
-            WordColor = Color.Black;
-            BackgroundColor = Color.Yellow;
-        }
+            Color.Blue, Color.Yellow, Color.Green, Color.Orange, Color.Orchid
+        };
+
+        public int MaxFontSize { get; set; } = 100;
+        public int MinFontSize { get; set; } = 11;
     }
 }

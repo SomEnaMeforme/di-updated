@@ -5,5 +5,6 @@ namespace TagCloudDI
     public interface ICloudLayouter
     {
         public Rectangle PutNextRectangle(Size forInsertion);
+        public void Clear();
     }
 }
