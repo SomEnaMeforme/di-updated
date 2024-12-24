@@ -1,13 +1,27 @@
-﻿using Aspose.Words;
+﻿using System.Text;
+using Spire.Doc;
+using Spire.Doc.Documents;
 
 namespace TagCloudDI.Data
 {
-    internal class DocFileDataSource : IFileDataSource
+    public class DocFileDataSource : IFileDataSource
     {
         public string GetData(string filePath)
         {
-            var doc = new Document(filePath);
-            return doc.GetText();
+            var text = new StringBuilder();
+            var doc = new Document();
+            doc.LoadFromFile(filePath);
+
+            foreach (Section section in doc.Sections)
+            {
+                foreach (Paragraph paragraph in section.Paragraphs)
+                {
+                    text.AppendLine(paragraph.Text);
+                }
+            }
+
+            return text.ToString().Trim();
         }
     }
+
 }

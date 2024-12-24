@@ -7,29 +7,31 @@ namespace TagCloudDI.Data
         private Func<string, IFileDataSource> getSource;
         private IEnumerable<IWordTransformer> transformers;
         private IEnumerable<IWordFilter> filters;
-        public DataProvider(Func<string, IFileDataSource> factory, IEnumerable<IWordTransformer> transformers, IEnumerable<IWordFilter> filters) 
+        private IDataParser parser;
+        public DataProvider(
+            Func<string, IFileDataSource> factory, 
+            IEnumerable<IWordTransformer> transformers, 
+            IEnumerable<IWordFilter> filters,
+            IDataParser parser) 
         {
             this.transformers = transformers;
             this.filters = filters;
             getSource = factory;
+            this.parser = parser;
         }
-        private string[] ReadAndParseData(IFileDataSource dataSource, string filePath)
+
+
+        public (string Word, double Frequency)[] GetPreprocessedWords(string filePath)
         {
-            var text = dataSource.GetData(filePath);
-            var punctuation = text
-                .Where(char.IsPunctuation)
-                .Distinct()
-                .ToArray();
-            var words = text.Split()
-                .Select(x => x.Trim(punctuation))
-                .Where(x => x.Length > 0)
-                .ToArray();
-            return words;
+            var source = getSource(Path.GetExtension(filePath));
+            var text = source.GetData(filePath);
+            var words = parser.Parse(text);
+            return PreprocessData(words);
         }
 
         private (string Word, double Frequency)[] PreprocessData(string[] words)
         {
-            var wordInfos = WordInfo.ParseText(string.Join(" ", words));
+            var wordInfos = WordInfo.GetInfoFromWords(words);
             var preprocessedWords = wordInfos
                 .Where(w => filters.All(f => f.Accept(w)))
                 .Select(ApplyTransformers);
@@ -57,13 +59,6 @@ namespace TagCloudDI.Data
                 word = transformer.Apply(word);
             }
             return word.InitialForm;
-        }
-
-        public (string Word, double Frequency)[] GetPreprocessedWords(string filePath)
-        {
-            var source = getSource(Path.GetExtension(filePath));
-            var words = ReadAndParseData(source, filePath);
-            return PreprocessData(words);
         }
     }
 }
