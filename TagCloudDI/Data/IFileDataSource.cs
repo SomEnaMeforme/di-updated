@@ -2,6 +2,6 @@
 {
     public interface IFileDataSource
     {
-        public string[] GetWords(string filePath);
+        public string GetData(string filePath);
     }
 }

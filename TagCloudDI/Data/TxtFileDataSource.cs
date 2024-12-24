@@ -1,13 +1,14 @@
-﻿namespace TagCloudDI.Data
+﻿using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace TagCloudDI.Data
 {
     public class TxtFileDataSource: IFileDataSource
     {
-        private readonly string wordSeparator = "\n";
-
-        public string[] GetWords(string filePath)
+        public string GetData(string filePath)
         {
             using var fileStream = new StreamReader(filePath);
-            return fileStream.ReadToEnd().Split(wordSeparator);
+            return fileStream.ReadToEnd();
         }
     }
 }
