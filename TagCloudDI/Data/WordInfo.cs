@@ -18,7 +18,7 @@
         private static Dictionary<string, SpeechPart> getSpeechPart = new Dictionary<string, SpeechPart>
         {
             {"S", SpeechPart.Noun},
-            { "V", SpeechPart.Verb},
+            {"V", SpeechPart.Verb},
             {"A",  SpeechPart.Adjective},
             {"ADV", SpeechPart.Adverb },
             {"PR", SpeechPart.Preposition},
@@ -39,9 +39,10 @@
             InitialForm = initialForm;
         }
 
-        public static WordInfo[] ParseText(string text)
+        public static WordInfo[] GetInfoFromWords(string[] words)
         {
-            var analysedWords = MyStem.MyStem.AnalyseWords(text).Split('\n');
+            var text = string.Join("\n", words);
+            var analysedWords = MyStem.MyStem.AnalyseWords(text).Split('\n').Where(w => w.Length > 0);
             var result = new List<WordInfo>();
             foreach (var word in analysedWords)
             {
@@ -53,9 +54,11 @@
         private static SpeechPart GetSpeechPart(string analysedWord)
         {
             var start = analysedWord.IndexOf('=') + 1;
-            var end = analysedWord.IndexOf(',');
-            if (start > 0 && end - start > 0)
+            var endSymbols = new HashSet<char> { '=', ',' };
+            if (start > 0 && endSymbols.Count > 0)
             {
+                var end = start + 1;
+                while(end < analysedWord.Length && !endSymbols.Contains(analysedWord[end])) end++;
                 if (getSpeechPart.TryGetValue(analysedWord.Substring(start, end - start), out var part))
                     return part;
             }

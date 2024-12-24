@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using System.Text.Json;
 using TagCloudDI.CloudVisualize;
 using TagCloudDI.ConsoleInterface;
 using TagCloudDI.Data;
@@ -21,14 +22,15 @@ namespace TagCloudDI
             builder.RegisterType<CloudVisualizer>();
             builder.RegisterType<DataProvider>();
             builder.RegisterType<RandomWordColorDistributor>().As<IWordColorDistributor>();
+            builder.RegisterType<LiteratureTextParser>().As<IDataParser>();
             builder.Register<Func<string, IFileDataSource>>(c =>
             {
                 var ctx = c.Resolve<IComponentContext>();
                 return p => ctx.ResolveKeyed<IFileDataSource>(p);
             });
             builder.RegisterType<TxtFileDataSource>().Keyed<IFileDataSource>(".txt");
-            builder.RegisterType<DocFileDataSource>().Keyed<IFileDataSource>(".doc");
-            builder.RegisterType<DocFileDataSource>().Keyed<IFileDataSource>(".docx");
+            builder.RegisterType<DocxFileDataSource>().Keyed<IFileDataSource>(".doc");
+            builder.RegisterType<DocxFileDataSource>().Keyed<IFileDataSource>(".docx");
             builder.RegisterType<App>().SingleInstance();
             builder.RegisterType<VisualizeSettings>().SingleInstance();
 
@@ -37,6 +39,9 @@ namespace TagCloudDI
             {
                 var app = scope.Resolve<App>();
                 app.Run();
+                //var s = scope.Resolve<VisualizeSettings>();
+                //var json = JsonSerializer.Serialize(s, new JsonSerializerOptions() { WriteIndented = true});
+                //File.WriteAllText(".\\settings.json", json);
             }
         }
     }

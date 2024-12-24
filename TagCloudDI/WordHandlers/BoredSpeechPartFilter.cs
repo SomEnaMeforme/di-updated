@@ -7,7 +7,7 @@ namespace TagCloudDI.WordHandlers
     {
         private HashSet<SpeechPart> boredSpeechPart =
         [
-            SpeechPart.Part, SpeechPart.Conjunction, SpeechPart.Pronoun, SpeechPart.Interjection
+            SpeechPart.Part, SpeechPart.Conjunction, SpeechPart.Pronoun, SpeechPart.Interjection, SpeechPart.Preposition
         ];
         public bool Accept(WordInfo word)
         {
