@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TagCloudDI.Data;
 
 namespace TagCloudDI.WordHandlers
 {
     internal class LowerCaseTransformer : IWordTransformer
     {
-        public string Apply(string word)
+        public WordInfo Apply(WordInfo word)
         {
-            return word.ToLower();
+            word.InitialForm = word.InitialForm.ToLower();
+            return word;
         }
     }
 }

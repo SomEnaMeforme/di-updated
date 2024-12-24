@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TagCloudDI.Data;
 
 namespace TagCloudDI.WordHandlers
 {
-    internal class InitialFormTransformer : IWordTransformer
+    internal class RemoveEmptyWords : IWordFilter
     {
-        public string Apply(string word)
+        public bool Accept(WordInfo word)
         {
-            throw new NotImplementedException();
+            return word.InitialForm != "" || word.InitialForm != null;
         }
     }
 }

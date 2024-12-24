@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TagCloudDI.Data;
+using static TagCloudDI.MyStem.MyStem;
 
 namespace TagCloudDI.WordHandlers
 {
-    internal class SpeechPartFilter : IWordFilter
+    public class SpeechPartFilter : IWordFilter
     {
-        public bool Accept(string word)
+        private HashSet<SpeechPart> speechPartForInclude = new();
+        public bool Accept(WordInfo word)
         {
-            throw new NotImplementedException();
+            return speechPartForInclude.Contains(word.SpeechPart);
         }
     }
 }

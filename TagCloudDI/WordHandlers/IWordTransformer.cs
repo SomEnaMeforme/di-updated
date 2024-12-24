@@ -1,7 +1,9 @@
-﻿namespace TagCloudDI.WordHandlers
+﻿using TagCloudDI.Data;
+
+namespace TagCloudDI.WordHandlers
 {
     public interface IWordTransformer
     {
-        public string Apply(string word);
+        public WordInfo Apply(WordInfo word);
     }
 }

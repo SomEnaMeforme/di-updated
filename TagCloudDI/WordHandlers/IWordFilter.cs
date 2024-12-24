@@ -1,7 +1,9 @@
-﻿namespace TagCloudDI.WordHandlers
+﻿using TagCloudDI.Data;
+
+namespace TagCloudDI.WordHandlers
 {
     public interface IWordFilter
     {
-        public bool Accept(string word);
+        public bool Accept(WordInfo word);
     }
 }
