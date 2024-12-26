@@ -5,21 +5,18 @@ namespace TagCloudDI.CloudVisualize
     public class CloudVisualizer
     {
         private VisualizeSettings settings;
-        private readonly ImageSaver imageSaver;
         private readonly ICloudLayouter layouter;
-        private readonly Size defaultSizeForImage = new Size(500, 500);
         private readonly IWordColorDistributor distributor;
 
 
         public CloudVisualizer(VisualizeSettings settings, ICloudLayouter cloudLayouter, IWordColorDistributor distributor)
         {
             this.settings = settings;
-            imageSaver = new ImageSaver();
             layouter = cloudLayouter;
             this.distributor = distributor;
         }
 
-        public string CreateImage((string Word, double Frequency)[] source, string? filePath = null)
+        public Bitmap CreateImage((string Word, double Frequency)[] source)
         {
             var words = LayoutWords(source).ToArray();
             var tmpImageSize = CalculateImageSize(words);
@@ -37,9 +34,8 @@ namespace TagCloudDI.CloudVisualize
                 graphics.DrawRectangle(new Pen(color), currentWord.WordBorder);
                 graphics.DrawString(currentWord.Word, font, new SolidBrush(color), currentWord.WordBorder);
             }
-            imageSaver.SaveImage(image);
-            var resizedImage = new Bitmap(image, settings.ImageSize == Size.Empty ? tmpImageSize : settings.ImageSize);
-            return imageSaver.SaveImage(resizedImage, filePath);
+            var resizedImage = new Bitmap(image, settings.ImageSize);
+            return resizedImage;
         }
 
         private IEnumerable<WordParameters> LayoutWords((string Word, double Frequency)[] words)
@@ -87,7 +83,7 @@ namespace TagCloudDI.CloudVisualize
         {
             var width = words.Max(w => w.WordBorder.Right) - words.Min(w => w.WordBorder.Left);
             var height = words.Max(w => w.WordBorder.Bottom) - words.Min(w => w.WordBorder.Top);
-            var sizeForRectangles = Math.Max(Math.Max(width, height), defaultSizeForImage.Width);
+            var sizeForRectangles = Math.Max(width, height);
             return new Size(sizeForRectangles, sizeForRectangles);
         }
     }

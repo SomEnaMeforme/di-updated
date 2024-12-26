@@ -20,7 +20,6 @@ namespace TagCloudDI.Data
             this.parser = parser;
         }
 
-
         public (string Word, double Frequency)[] GetPreprocessedWords(string filePath)
         {
             var source = getSource(Path.GetExtension(filePath));

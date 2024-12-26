@@ -28,9 +28,13 @@ namespace TagCloudDI.ConsoleInterface
             var filePath = cmd.Argument("file", "Path to file").IsRequired();
             cmd.OnExecute(() =>
             {
-                var pathToImage = creator.CreateTagCloud(filePath.Value);
-                Console.WriteLine("Path to cloud generation result: " + pathToImage);
-                OpenImage(pathToImage);
+                if (File.Exists(filePath.Value))
+                {
+                    var pathToImage = creator.CreateTagCloud(filePath.Value);
+                    Console.WriteLine("Path to cloud generation result: " + pathToImage);
+                    OpenImage(pathToImage);
+                }
+                else Console.WriteLine("Try read non existed file");
                 
             });
         }
@@ -44,9 +48,9 @@ namespace TagCloudDI.ConsoleInterface
 
         private void ConfigureChangeImageParameterCommand(CommandLineApplication cmd)
         {
+            var sizeSeparator = ";";
             cmd.Description = "Configure settings for tag cloud visualization";
             cmd.HelpOption();
-            var sizeSeparator = ";";
             var font = cmd.Option("-f|--font <FONT>", "The font for words", CommandOptionType.SingleValue);
             var fontSizeMin = cmd.Option("-fs-min|--fontSize <MIN>", "The min for font size", CommandOptionType.SingleValue);
             var fontSizeMax = cmd.Option("-fs-max|--fontSize <MAX>", "The max for font size", CommandOptionType.SingleValue);
@@ -81,7 +85,6 @@ namespace TagCloudDI.ConsoleInterface
                     var color = Color.FromName(backgroundColor.Value());
                     settings.BackgroundColor = color;
                 }
-
             });
         }
 
@@ -97,8 +100,7 @@ namespace TagCloudDI.ConsoleInterface
                 catch (UnrecognizedCommandParsingException e)
                 {
                     Console.WriteLine(e.Message);
-                }
-                
+                }               
             }
         }
     }

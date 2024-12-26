@@ -1,7 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace TagCloudDI.Data
+﻿namespace TagCloudDI.Data
 {
     public class TxtFileDataSource: IFileDataSource
     {

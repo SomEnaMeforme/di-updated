@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace TagCloudDI.CloudVisualize
 {
-    internal class ImageSaver
+    internal class DefaultImageSaver: IImageSaver
     {
         private ImageFormat format = ImageFormat.Png;
 

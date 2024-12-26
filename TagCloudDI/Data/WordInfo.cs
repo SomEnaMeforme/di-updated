@@ -42,7 +42,8 @@
         public static WordInfo[] GetInfoFromWords(string[] words)
         {
             var text = string.Join("\n", words);
-            var analysedWords = MyStem.MyStem.AnalyseWords(text).Split('\n').Where(w => w.Length > 0);
+            var analysedText = MyStem.MyStem.AnalyseWords(text);
+            var analysedWords = analysedText.Split('\n').Where(w => w.Length > 0);
             var result = new List<WordInfo>();
             foreach (var word in analysedWords)
             {
